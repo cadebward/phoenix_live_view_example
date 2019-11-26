@@ -36,6 +36,16 @@ defmodule Demo.Accounts do
     )
   end
 
+  def list_users(current_page, per_page, filter) do
+    Repo.all(
+      from u in User,
+        order_by: [asc: u.id],
+        offset: ^((current_page - 1) * per_page),
+        limit: ^per_page,
+        where: like(u.username, ^"%#{filter}%")
+    )
+  end
+
   @doc """
   Gets a single user.
 
